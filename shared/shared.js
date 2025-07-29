@@ -1,4 +1,4 @@
-const sharedPath = "shared/";
+const sharedPath = "/JSMG/shared/";
 
 fetch(sharedPath + "header.html")
   .then(res => res.text())
@@ -12,7 +12,6 @@ fetch(sharedPath + "footer.html")
   .then(data => {
     document.getElementById("footer-placeholder").innerHTML = data;
   });
-
 
 function setupSearch() {
   let container = document.getElementById("searchContainer");
