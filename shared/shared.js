@@ -4,7 +4,7 @@ fetch(sharedPath + "header.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("header-placeholder").innerHTML = data;
-    setupSearch();
+    setupSearch(); // optional if you need it
   });
 
 fetch(sharedPath + "footer.html")
@@ -29,12 +29,13 @@ function setupSearch() {
   dropdown.className = "dropdown";
   searchBox.appendChild(dropdown);
 
+  // استخدم مسارات كاملة تبدأ بـ /JSMG/
   let categories = [
-    { name: "Bags", link: "../Products_ProductId/index.html" },
-    { name: "Dresses", link: "../Products_ProductId/index.html" },
-    { name: "Shoes", link: "../Products_ProductId/index.html" },
-    { name: "Jewllery", link: "../Products_ProductId/index.html" },
-    { name: "Sunglasses", link: "../Products_ProductId/index.html" }
+    { name: "Bags", link: "/JSMG/Products_ProductId/index.html" },
+    { name: "Dresses", link: "/JSMG/Products_ProductId/index.html" },
+    { name: "Shoes", link: "/JSMG/Products_ProductId/index.html" },
+    { name: "Jewllery", link: "/JSMG/Products_ProductId/index.html" },
+    { name: "Sunglasses", link: "/JSMG/Products_ProductId/index.html" }
   ];
 
   function showCategories() {
