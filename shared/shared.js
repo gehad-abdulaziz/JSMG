@@ -1,4 +1,4 @@
-const sharedPath = "../shared/";
+const sharedPath = "/shared/";
 
 fetch(sharedPath + "header.html")
   .then(res => res.text())
