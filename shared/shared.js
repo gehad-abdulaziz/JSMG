@@ -1,10 +1,13 @@
-const sharedPath = "/JSMG/shared/";
+const currentPath = window.location.pathname;
+const isRoot = currentPath.endsWith("index.html") || currentPath === "/JSMG/" || currentPath === "/JSMG";
+
+const sharedPath = isRoot ? "shared/" : "../shared/";
 
 fetch(sharedPath + "header.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("header-placeholder").innerHTML = data;
-    setupSearch(); // optional if you need it
+    setupSearch(); // أو أي دالة محتاجة بعد الهيدر
   });
 
 fetch(sharedPath + "footer.html")
