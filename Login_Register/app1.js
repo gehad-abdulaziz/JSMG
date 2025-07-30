@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const login = document.getElementById("loginform");
   const register = document.getElementById("registerform");
@@ -10,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function safeGet(id) {
     const el = document.getElementById(id);
-    if (!el) console.error(`Element with id '${id}' not found.`);
+    if (!el) console.error(Element with id '${id}' not found.);
     return el;
   }
 
@@ -113,15 +112,12 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
           .then((res) => res.json())
           .then((data) => {
             if (data.token) {
-  localStorage.setItem("userToken", data.token);
-  localStorage.setItem("userName", data.user.name || "");
-  localStorage.setItem("userEmail", data.user.email || "");
-
+  localStorage.setItem("token", data.token);
   setTimeout(() => {
     window.location.href = "/JSMG/index.html";
   }, 1500);
 }
- else {
+else {
               showMessage(data.message || "Login failed.");
             }
           })
@@ -162,22 +158,17 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
             rePassword: confirmPassword,
           }),
         })
-        .then((res) => res.json())
-.then((data) => {
-  if (data.message === "success") {
-    localStorage.setItem("userToken", data.token || "registered");
-    localStorage.setItem("userName", data.data?.firstName || "");
-    localStorage.setItem("userEmail", data.data?.email || "");
-
-    setTimeout(() => {
-      window.location.href = "/JSMG/index.html";
-      // showLogin();
-    }, 1000);
-  } else {
-    showMessage(data.errors?.msg || data.message || "Something went wrong");
-  }
-});
-
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.message === "success") {
+              setTimeout(() => {
+window.location.href = "/JSMG/index.html";
+                showLogin();
+              }, 1000);
+            } else {
+              showMessage(data.errors?.msg || data.message || "Something went wrong");
+            }
+          })
           .catch((err) => {
             showMessage("ERROR:" + err.message || "Something went wrong");
             console.error(err);
@@ -229,7 +220,7 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
         showMessage("Please enter a valid code");
         return;
       }
-      console.log("resetCode being sent:", `"${code}"`);
+      console.log("resetCode being sent:", "${code}");
       console.log("Email in localStorage during verify:", localStorage.getItem("email"));
       fetch("https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode", {
         method: "POST",
@@ -302,7 +293,4 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
 });
 
 }); 
-
-
-
 
