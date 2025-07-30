@@ -113,10 +113,15 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
           .then((res) => res.json())
           .then((data) => {
             if (data.token) {
-              setTimeout(() => {
-window.location.href = "/JSMG/index.html";
-              }, 1500);
-            } else {
+  localStorage.setItem("userToken", data.token);
+  localStorage.setItem("userName", data.user.name || "");
+  localStorage.setItem("userEmail", data.user.email || "");
+
+  setTimeout(() => {
+    window.location.href = "/JSMG/index.html";
+  }, 1500);
+}
+ else {
               showMessage(data.message || "Login failed.");
             }
           })
@@ -157,17 +162,22 @@ window.location.href = "/JSMG/index.html";
             rePassword: confirmPassword,
           }),
         })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.message === "success") {
-              setTimeout(() => {
-window.location.href = "/JSMG/index.html";
-                showLogin();
-              }, 1000);
-            } else {
-              showMessage(data.errors?.msg || data.message || "Something went wrong");
-            }
-          })
+        .then((res) => res.json())
+.then((data) => {
+  if (data.message === "success") {
+    localStorage.setItem("userToken", data.token || "registered");
+    localStorage.setItem("userName", data.data?.firstName || "");
+    localStorage.setItem("userEmail", data.data?.email || "");
+
+    setTimeout(() => {
+      window.location.href = "/JSMG/index.html";
+      // showLogin();
+    }, 1000);
+  } else {
+    showMessage(data.errors?.msg || data.message || "Something went wrong");
+  }
+});
+
           .catch((err) => {
             showMessage("ERROR:" + err.message || "Something went wrong");
             console.error(err);
