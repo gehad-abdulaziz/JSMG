@@ -114,7 +114,7 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
           .then((data) => {
             if (data.token) {
               setTimeout(() => {
-                window.location.href ="/home.html"
+window.location.href = "/JSMG/home.html";
               }, 1500);
             } else {
               showMessage(data.message || "Login failed.");
@@ -161,7 +161,7 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
           .then((data) => {
             if (data.message === "success") {
               setTimeout(() => {
-                window.location.href ="/home.html"
+window.location.href = "/JSMG/home.html";
                 showLogin();
               }, 1000);
             } else {
