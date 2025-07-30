@@ -195,6 +195,8 @@ document.addEventListener("DOMContentLoaded", function () {
               document.getElementById("forgetform").classList.add("d-none");
               document.getElementById("CodeForm").classList.remove("d-none");
               document.getElementById("verifyCodeForm").classList.remove("d-none");
+              localStorage.setItem("token", data.token);
+                window.location.href = "/JSMG/index.html";
             }, 2000);
           } else {
             showMessage(data.message || "Something went wrong");
