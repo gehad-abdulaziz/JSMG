@@ -1,17 +1,26 @@
-const sharedPath = "/JSMG/shared/";
+let pathPrefix = "";
 
-fetch(sharedPath + "header.html")
+if (window.location.pathname.includes("/Products_ProductId/") || 
+    window.location.pathname.includes("/About_Addtocart/") ||
+    window.location.pathname.includes("/Login_Register/")) {
+  pathPrefix = "../shared/";
+} else {
+  pathPrefix = "shared/";
+}
+
+fetch(pathPrefix + "header.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("header-placeholder").innerHTML = data;
-    setupSearch(); // optional if you need it
+    setupSearch();
   });
 
-fetch(sharedPath + "footer.html")
+fetch(pathPrefix + "footer.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("footer-placeholder").innerHTML = data;
   });
+
 
 function setupSearch() {
   let container = document.getElementById("searchContainer");
