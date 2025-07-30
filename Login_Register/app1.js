@@ -1,3 +1,5 @@
+
+              
 document.addEventListener("DOMContentLoaded", function () {
   const login = document.getElementById("loginform");
   const register = document.getElementById("registerform");
@@ -19,8 +21,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (login && register) showLogin();
   }
 
+  // const showRegisterBtn = safeGet("showregister");
+  // if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
   const showRegisterBtn = document.getElementById("showregister");
-  if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
+if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
+
 
   const showLoginBtn = safeGet("showlogin");
   if (showLoginBtn) showLoginBtn.addEventListener("click", showLogin);
@@ -87,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 6000);
   }
 
-  // Login
   const loginForm = document.getElementById("myform");
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
@@ -110,9 +114,8 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((res) => res.json())
           .then((data) => {
             if (data.token) {
-              localStorage.setItem("token", data.token);
               setTimeout(() => {
-                window.location.href = "/JSMG/index.html";
+                window.location.href ="/JSMG/index.html"
               }, 1500);
             } else {
               showMessage(data.message || "Login failed.");
@@ -125,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Register
   const regform = document.getElementById("form2");
   if (regform) {
     regform.addEventListener("submit", function (e) {
@@ -160,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((data) => {
             if (data.message === "success") {
               setTimeout(() => {
+                window.location.href ="/JSMG/index.html"
                 showLogin();
               }, 1000);
             } else {
@@ -168,12 +171,12 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           .catch((err) => {
             showMessage("ERROR:" + err.message || "Something went wrong");
+            console.error(err);
           });
       }
     });
   }
 
-  // Forget Password
   if (forget) {
     forget.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -186,19 +189,19 @@ document.addEventListener("DOMContentLoaded", function () {
       fetch("https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: email }),
       })
         .then((res) => res.json())
         .then((data) => {
           if (data.statusMsg === "success") {
             setTimeout(() => {
-              document.getElementById("forgetform").classList.add("d-none");
-              document.getElementById("CodeForm").classList.remove("d-none");
-              document.getElementById("verifyCodeForm").classList.remove("d-none");
-              localStorage.setItem("token", data.token);
-                window.location.href = "/JSMG/index.html";
-            }, 2000);
-          } else {
+             document.getElementById("forgetform").classList.add("d-none")
+             document.getElementById("CodeForm").classList.remove("d-none");
+             document.getElementById("verifyCodeForm").classList.remove("d-none")
+             console.log("verify:", verify)
+             }, 2000);
+            }
+           else {
             showMessage(data.message || "Something went wrong");
           }
         })
@@ -208,7 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Verify Code
   if (verify) {
     verify.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -218,7 +220,8 @@ document.addEventListener("DOMContentLoaded", function () {
         showMessage("Please enter a valid code");
         return;
       }
-
+      console.log("resetCode being sent:", `"${code}"`);
+      console.log("Email in localStorage during verify:", localStorage.getItem("email"));
       fetch("https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -234,6 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
               if (codeForm) codeForm.classList.add("d-none");
               if (resetPasswordCard) resetPasswordCard.classList.remove("d-none");
               if (resetForm) resetForm.classList.remove("d-none");
+              console.log("Code sent:", code);
             }, 1500);
           } else {
             showMessage(data.message || "Invalid code");
@@ -245,7 +249,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Reset Password
   if (reset) {
     reset.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -266,14 +269,16 @@ document.addEventListener("DOMContentLoaded", function () {
       fetch("https://ecommerce.routemisr.com/api/v1/auth/resetPassword", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, newPassword }),
+        body: JSON.stringify({
+          email,
+          newPassword,
+        }),
       })
         .then((res) => res.json())
         .then((data) => {
           if (data.token) {
-            localStorage.setItem("token", data.token);
             setTimeout(() => {
-              window.location.href = "/JSMG/index.html";
+              window.location.href = "login.html";
             }, 2000);
           } else {
             showMessage(data.message || "Something went wrong");
@@ -282,9 +287,13 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch((err) => showMessage("Error: " + err.message));
     });
   }
-
   window.addEventListener("load", function () {
-    const forgetbtn = document.getElementById("forgetbtn");
-    console.log("Forget button loaded after page:", forgetbtn);
-  });
+  const forgetbtn = document.getElementById("forgetbtn");
+  console.log("Forget button loaded after page:", forgetbtn);
 });
+
+}); 
+
+
+
+
