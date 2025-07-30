@@ -113,15 +113,19 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
         })
           .then((res) => res.json())
           .then((data) => {
-            if (data.token) {
-                localStorage.setItem("token", data.token); 
-              setTimeout(() => {
-                window.location.href ="/JSMG/index.html"
-              }, 1500);
-            } else {
-              showMessage(data.message || "Login failed.");
-            }
-          })
+  console.log("API Response:", data); // <-- هنا هتشوفي محتوى الـ response
+
+  if (data.token) {
+    localStorage.setItem("token", data.token); 
+    console.log("Saved token:", localStorage.getItem("token")); // <-- تأكيد الحفظ
+    setTimeout(() => {
+      window.location.href = "/JSMG/index.html";
+    }, 1500);
+  } else {
+    showMessage(data.message || "Login failed.");
+  }
+})
+
           .catch((err) => {
             showMessage("Something went wrong: " + err.message);
           });
