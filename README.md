@@ -46,4 +46,3 @@ Organized code structure and role distribution across the team
 
 # How to Run the Project
 to see the project: https://gehad-abdulaziz.github.io/JSMG/
-فخtpo
