@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function safeGet(id) {
     const el = document.getElementById(id);
-    if (!el) console.error(Element with id '${id}' not found.);
+    if (!el) console.error(`Element with id '${id}' not found.`);
     return el;
   }
 
@@ -19,11 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (login && register) showLogin();
   }
 
-  // const showRegisterBtn = safeGet("showregister");
-  // if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
   const showRegisterBtn = document.getElementById("showregister");
-if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
-
+  if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
 
   const showLoginBtn = safeGet("showlogin");
   if (showLoginBtn) showLoginBtn.addEventListener("click", showLogin);
@@ -90,6 +87,7 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
     }, 6000);
   }
 
+  // Login
   const loginForm = document.getElementById("myform");
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
@@ -112,12 +110,11 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
           .then((res) => res.json())
           .then((data) => {
             if (data.token) {
-  localStorage.setItem("token", data.token);
-  setTimeout(() => {
-    window.location.href = "/JSMG/index.html";
-  }, 1500);
-}
-else {
+              localStorage.setItem("token", data.token);
+              setTimeout(() => {
+                window.location.href = "/JSMG/index.html";
+              }, 1500);
+            } else {
               showMessage(data.message || "Login failed.");
             }
           })
@@ -128,6 +125,7 @@ else {
     });
   }
 
+  // Register
   const regform = document.getElementById("form2");
   if (regform) {
     regform.addEventListener("submit", function (e) {
@@ -162,7 +160,6 @@ else {
           .then((data) => {
             if (data.message === "success") {
               setTimeout(() => {
-window.location.href = "/JSMG/index.html";
                 showLogin();
               }, 1000);
             } else {
@@ -171,12 +168,12 @@ window.location.href = "/JSMG/index.html";
           })
           .catch((err) => {
             showMessage("ERROR:" + err.message || "Something went wrong");
-            console.error(err);
           });
       }
     });
   }
 
+  // Forget Password
   if (forget) {
     forget.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -189,19 +186,17 @@ window.location.href = "/JSMG/index.html";
       fetch("https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email }),
+        body: JSON.stringify({ email }),
       })
         .then((res) => res.json())
         .then((data) => {
           if (data.statusMsg === "success") {
             setTimeout(() => {
-             document.getElementById("forgetform").classList.add("d-none")
-             document.getElementById("CodeForm").classList.remove("d-none");
-             document.getElementById("verifyCodeForm").classList.remove("d-none")
-             console.log("verify:", verify)
-             }, 2000);
-            }
-           else {
+              document.getElementById("forgetform").classList.add("d-none");
+              document.getElementById("CodeForm").classList.remove("d-none");
+              document.getElementById("verifyCodeForm").classList.remove("d-none");
+            }, 2000);
+          } else {
             showMessage(data.message || "Something went wrong");
           }
         })
@@ -211,6 +206,7 @@ window.location.href = "/JSMG/index.html";
     });
   }
 
+  // Verify Code
   if (verify) {
     verify.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -220,8 +216,7 @@ window.location.href = "/JSMG/index.html";
         showMessage("Please enter a valid code");
         return;
       }
-      console.log("resetCode being sent:", "${code}");
-      console.log("Email in localStorage during verify:", localStorage.getItem("email"));
+
       fetch("https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -237,7 +232,6 @@ window.location.href = "/JSMG/index.html";
               if (codeForm) codeForm.classList.add("d-none");
               if (resetPasswordCard) resetPasswordCard.classList.remove("d-none");
               if (resetForm) resetForm.classList.remove("d-none");
-              console.log("Code sent:", code);
             }, 1500);
           } else {
             showMessage(data.message || "Invalid code");
@@ -249,6 +243,7 @@ window.location.href = "/JSMG/index.html";
     });
   }
 
+  // Reset Password
   if (reset) {
     reset.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -269,16 +264,14 @@ window.location.href = "/JSMG/index.html";
       fetch("https://ecommerce.routemisr.com/api/v1/auth/resetPassword", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          newPassword,
-        }),
+        body: JSON.stringify({ email, newPassword }),
       })
         .then((res) => res.json())
         .then((data) => {
           if (data.token) {
+            localStorage.setItem("token", data.token);
             setTimeout(() => {
-              window.location.href = "login.html";
+              window.location.href = "/JSMG/index.html";
             }, 2000);
           } else {
             showMessage(data.message || "Something went wrong");
@@ -287,10 +280,9 @@ window.location.href = "/JSMG/index.html";
         .catch((err) => showMessage("Error: " + err.message));
     });
   }
+
   window.addEventListener("load", function () {
-  const forgetbtn = document.getElementById("forgetbtn");
-  console.log("Forget button loaded after page:", forgetbtn);
+    const forgetbtn = document.getElementById("forgetbtn");
+    console.log("Forget button loaded after page:", forgetbtn);
+  });
 });
-
-}); 
-
