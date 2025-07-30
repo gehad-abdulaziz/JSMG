@@ -114,6 +114,7 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
           .then((res) => res.json())
           .then((data) => {
             if (data.token) {
+                localStorage.setItem("token", data.token); 
               setTimeout(() => {
                 window.location.href ="/JSMG/index.html"
               }, 1500);
@@ -277,10 +278,12 @@ if (showRegisterBtn) showRegisterBtn.addEventListener("click", showRegister);
         .then((res) => res.json())
         .then((data) => {
           if (data.token) {
-            setTimeout(() => {
-              window.location.href = "login.html";
-            }, 2000);
-          } else {
+  localStorage.setItem("token", data.token);
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 2000);
+}
+ else {
             showMessage(data.message || "Something went wrong");
           }
         })
